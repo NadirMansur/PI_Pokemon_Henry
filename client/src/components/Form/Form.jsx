@@ -318,13 +318,13 @@ const prueba = "prueba";
             </div>
           </div>
           <div className={style.error}>
-            <span>{error.name}</span>
-            <span>{error.hp}</span>
-            <span>{error.attack}</span>
-            <span>{error.defense}</span>
-            <span>{error.height}</span>
-            <span>{error.image}</span>
-            <span>{error.types}</span>
+            {error.name && <span>{error.name}</span>}
+            {error.hp && <span>{error.hp}</span>}
+            {error.attack && <span>{error.attack}</span>}
+            {error.defense && <span>{error.defense}</span>}
+            {error.height && <span>{error.height}</span>}
+            {error.image && <span>{error.image}</span>}
+            {error.types && <span>{error.types}</span>}
           </div>
           <div>
             <button type="submit">Crear Pokemón</button>
