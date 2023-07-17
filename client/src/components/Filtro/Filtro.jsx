@@ -14,7 +14,6 @@ const Filtros = ({ setnumeroPagina }) => {
   ////////////////////////////////////////////////////////////////
 
   const handleFilter = (event) => {
-    event.preventDefault();
     const origen = event.target.value;
     console.log(
       "FILTRO,js handleFilter, se realizo el dispatch filterCards con origen ",
@@ -26,7 +25,6 @@ const Filtros = ({ setnumeroPagina }) => {
   };
 
   const handleSort = (event) => {
-    event.preventDefault();
     const order = event.target.value;
     console.log(
       "FILTRO.js handleSort, se realizo el dispatch filterCards con order ",

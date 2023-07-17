@@ -9,31 +9,38 @@ const FilterType = () => {
   const state = useSelector((state) => state);
 
   let filterType = state.isChecked;
+  const ultimoFiltro = state.ultimoFiltro;
 
   const handleOnChange = (event) => {
-    event.preventDefault();
     const caso = event.target.value;
     for (let i = 0; i < filterType.length; i++) {
       if (filterType[i].box === caso) {
         filterType[i].state = !filterType[i].state;
       }
     }
+    console.log("filterType Antes del dispatch es ", filterType);
     dispatch(actualizarFiltroTipo(filterType));
     ////////////////////// A ESTE PUNTO EL ESTADO GLOBAL DE LOS CHECKSBOX ESTA ACTUAIADO
   };
 
   const filtrarPorTipo = () => {
-    console.log(
-      "Filtertype.jsx entre a hacer filtrarPorTipo     dispatch(filtroXtipo(filterType));"
-    );
-    dispatch(filtroXtipo(filterType));
+    console.log("filtrarPorTipo");
+    const arrayDeTipos = [];
+    for (let i = 0; i < filterType.length; i++) {
+      if (filterType[i].state === true) {
+        arrayDeTipos.push(filterType[i].box);
+      }
+    }
+    console.log("arrayDeTipos Antes del IF es ", arrayDeTipos);
+    if (arrayDeTipos.length === 0) {
+      console.log("arrayDeTipos esta vacio");
+      const origen = "todosLosPokes";
+      dispatch(filterCards(origen));
+    } else {
+      console.log("arrayDeTipos Antes del dispatch es ", arrayDeTipos);
+      dispatch(filtroXtipo(arrayDeTipos));
+    }
   };
-
-  // useEffect(() => {
-  //   filterType = state.isChecked;
-  // }, [state.isChecked]);
-
-//////////////////////////// posibilidad ReALIZAR VALIDACION EN EL MAP /////////////
 
   return (
     <div className={style.checkBox}>
@@ -43,14 +50,14 @@ const FilterType = () => {
             {`${tipo.box}`}
             <input
               type="checkbox"
-              value={`${tipo.box}`}
+              value={tipo.box}
               checked={tipo.state}
               onChange={handleOnChange}
             ></input>
           </label>
         </div>
       ))}
-      <button onChange={filtrarPorTipo}>Filtrar</button>
+      <button onClick={filtrarPorTipo}>Filtrar</button>
     </div>
   );
 };

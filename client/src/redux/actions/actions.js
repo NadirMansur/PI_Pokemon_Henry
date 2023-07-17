@@ -1,3 +1,5 @@
+import axios from "axios";
+//import { useSelector, useDispatch } from "react-redux";
 import {
   ADD_FAV,
   REMOVE_FAV,
@@ -9,7 +11,6 @@ import {
   FILTRO_TIPO,
   ACTUALIZAR_FILTRO_TIPO,
 } from "./types";
-import axios from "axios";
 
 ///revisar operaciones asincronas
 
@@ -57,7 +58,10 @@ export const filterCards = (origen) => {
   console.log("ACTIONS:JS entre a la funcion filterCards");
   return async (dispatch, getState) => {
     try {
-      const state = await getState(); // Obtener el estado actual
+      //////////comente este espacio de codigo a ver si funciona //////
+      const state = await getState();
+      ////////////////////////////////////////////////////////////////
+      //const state = useSelector((state) => state);
       const bddData = state.BDD;
       const apiPokeData = state.apiPoke;
       const allData = [...bddData, ...apiPokeData];
@@ -109,18 +113,6 @@ export const filterCards = (origen) => {
             payload: apiPokeData,
           });
 
-        case "type":
-          console.log("a CASE selecionar por", origen);
-          console.log("ingrese a actions.js y ejectue caso type");
-          console.log("voy a hacer el dispatch con apiPokeData", apiPokeData);
-          console.log(
-            "////////////////////////////////////////////////////////////////////////////////////////////////"
-          );
-          return dispatch({
-            type: FILTER,
-            payload: apiPokeData,
-          });
-
         default:
           return dispatch({
             type: FILTER,
@@ -138,18 +130,20 @@ export const filtroXtipo = (filtros) => {
   /////// FILTRE POR TIPO ////////
   return (dispatch, getState) => {
     const state = getState();
+    console.log("/////////////// filtroXtipo ////////////////");
     const filtrados = state.filtro;
+    console.log("filtrados ", filtrados);
     const filtro_filtrado = [...filtrados].filter((pokemon) => {
       for (let filtro of filtros) {
         for (let propiedad in pokemon) {
           if (Array.isArray(pokemon[propiedad])) {
             for (let element of pokemon[propiedad]) {
               if (typeof element.type === "string") {
-                if (element.type === filtro.box) {
+                if (element.type === filtro) {
                   return true;
                 }
               } else {
-                if (element.type.name === filtro.box) {
+                if (element.type.name === filtro) {
                   return true;
                 }
               }
@@ -159,7 +153,11 @@ export const filtroXtipo = (filtros) => {
       }
       return false;
     });
-
+    console.log(
+      "entre a la action filtroXtipo y payload es ",
+      filtro_filtrado,
+      "type: FILTRO_TIPO"
+    );
     dispatch({
       type: FILTRO_TIPO,
       payload: filtro_filtrado,

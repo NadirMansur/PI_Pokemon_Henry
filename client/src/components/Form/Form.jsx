@@ -17,7 +17,6 @@ const validate = (input, setErrors, errors, types) => {
       ...errors,
       name: "Name vacio",
     });
-  ////////////verificar exprecion regular
   else if (!regexNombre.test(input.name)) {
     setErrors({
       ...errors,
