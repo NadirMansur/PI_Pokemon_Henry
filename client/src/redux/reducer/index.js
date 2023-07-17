@@ -16,6 +16,7 @@ const initialState = {
   apiPoke: [],
   allPoke: [],
   filtro: [],
+  filtroTipo: [],
   ultimoFiltro: "todosLosPokes",
   isChecked: [
     { box: "normal", state: false },
@@ -64,7 +65,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case FILTRO_TIPO:
       return {
         ...state,
-        filtro: payload,
+        filtroTipo: payload,
       };
     case ACTUALIZAR_FILTRO_TIPO:
       return {

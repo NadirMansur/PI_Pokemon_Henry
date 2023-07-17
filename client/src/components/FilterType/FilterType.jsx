@@ -1,7 +1,7 @@
 import style from "./FilterType.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { actualizarFiltroTipo } from "../../redux/actions/actions";
-import { filtroXtipo } from "../../redux/actions/actions.js";
+import { filtroXtipo, filterCards } from "../../redux/actions/actions.js";
 import React, { useEffect } from "react";
 
 const FilterType = () => {
@@ -10,6 +10,7 @@ const FilterType = () => {
 
   let filterType = state.isChecked;
   const ultimoFiltro = state.ultimoFiltro;
+  const allPokemon = state.allPoke;
 
   const handleOnChange = (event) => {
     const caso = event.target.value;
@@ -26,6 +27,7 @@ const FilterType = () => {
   const filtrarPorTipo = () => {
     console.log("filtrarPorTipo");
     const arrayDeTipos = [];
+
     for (let i = 0; i < filterType.length; i++) {
       if (filterType[i].state === true) {
         arrayDeTipos.push(filterType[i].box);
@@ -45,7 +47,7 @@ const FilterType = () => {
   return (
     <div className={style.checkBox}>
       {filterType.map((tipo, index) => (
-        <div key={index}>
+        <div key={index} className={style.filtro}>
           <label>
             {`${tipo.box}`}
             <input

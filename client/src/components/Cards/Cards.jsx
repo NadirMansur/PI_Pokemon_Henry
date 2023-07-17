@@ -33,6 +33,7 @@ const Cards = (props) => {
   const allPokes = useSelector((state) => state.allPoke);
   const filtrados = useSelector((state) => state.filtro);
   const ultimoFiltro = useSelector((state) => state.ultimoFiltro);
+  const filtroTipo = useSelector((state) => state.filtroTipo);
   //////////////////////////////////////////////////////////////////////////////////
 
   /////////////////////////////////////////////////////////////////////
@@ -59,6 +60,10 @@ const Cards = (props) => {
   useEffect(() => {
     setallPages(paginado(filtrados, size));
   }, [filtrados]);
+////////////// LA IDEA ES QUE AL HAGA EL PAGINADO SOBRE OTRO FILTRO MAS ESPECIFICO)
+  useEffect(() => {
+    setallPages(paginado(filtroTipo, size));
+  },[filtroTipo]);
   //////////////////////////////////////////////////////////////////////////////////
 
   ///////////////////////////////////////////////////////////////////////////////////

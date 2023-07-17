@@ -65,9 +65,6 @@ export const filterCards = (origen) => {
       const bddData = state.BDD;
       const apiPokeData = state.apiPoke;
       const allData = [...bddData, ...apiPokeData];
-      // va a ser igual a un filtro de [...allData] donde la propiedad type
-      // sea igual a los tipos buscados
-      const filter = [...bddData, ...apiPokeData];
       console.log(
         "filterCards: bddData, apiPokeData, y allData son:  ",
         bddData,
