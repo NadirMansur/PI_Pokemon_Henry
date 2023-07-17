@@ -153,7 +153,7 @@ const Form = () => {
     types: [], //////////// es un array de Strings //////////////////
   });
   ////////////////    CREA UN ESTADO LOCAL DE ERRORES    //////////////////
-  const [error, setError] = useState({
+  const [errors, setErrors] = useState({
     name: "",
     hp: "",
     attack: "",
@@ -170,8 +170,8 @@ const Form = () => {
     });
     validate(
       { ...input, [e.target.name]: e.target.value },
-      setError,
-      error,
+      setErrors,
+      errors,
       types
     );
   };
@@ -185,8 +185,8 @@ const Form = () => {
     });
     validate(
       { ...input, types: [...input.types, e.target.value] },
-      setError,
-      error,
+      setErrors,
+      errors,
       types
     );
   };
@@ -318,13 +318,13 @@ const prueba = "prueba";
             </div>
           </div>
           <div className={style.error}>
-            {error.name && <span>{error.name}</span>}
-            {error.hp && <span>{error.hp}</span>}
-            {error.attack && <span>{error.attack}</span>}
-            {error.defense && <span>{error.defense}</span>}
-            {error.height && <span>{error.height}</span>}
-            {error.image && <span>{error.image}</span>}
-            {error.types && <span>{error.types}</span>}
+            {errors.name && <span>{errors.name}</span>}
+            {errors.hp && <span>{errors.hp}</span>}
+            {errors.attack && <span>{errors.attack}</span>}
+            {errors.defense && <span>{errors.defense}</span>}
+            {errors.height && <span>{errors.height}</span>}
+            {errors.image && <span>{errors.image}</span>}
+            {errors.types && <span>{errors.types}</span>}
           </div>
           <div>
             <button type="submit">Crear Pokemón</button>
