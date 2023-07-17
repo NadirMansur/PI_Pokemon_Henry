@@ -1,0 +1,12 @@
+.checkBox{
+    display: flex;
+    flex-wrap: wrap;
+    width: 400px;
+}
+
+.filtro{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

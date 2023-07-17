@@ -1,0 +1,47 @@
+.landing {
+    background-image: url(../../../assets/Landing.jpg);
+    background-size: cover;
+    background-position: center center;
+    height: 100vh;
+    display: flex; 
+    flex-direction: column; /* Alinea el contenido verticalmente */
+    justify-content: center; /* Centra verticalmente el contenido */
+    align-items: center; /* Centra horizontalmente el contenido */
+}
+
+.contenedor {
+    position: relative;
+    width: 324px;
+    height: 576px;
+    border-radius: 30px;
+    background-image: url(../../../assets/Landing_Card.jpg);
+    background-size: cover;
+    background-position: center center;
+  }
+
+.entrar {position: absolute;
+    width: 150px;
+    height: 50px;
+    border-radius: 30px;
+    top: 75%; 
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centra el botón tanto vertical como horizontalmente */
+    background-color: #7DB185;
+    color: #F1F56F;
+    border: 2px solid #F1F56F;
+    transition-duration: 0.4s;
+    font-family: 'Fuzzy Bubbles', cursive;
+    font-size: medium;
+    font-style: oblique;
+    font-weight: bold;
+}
+
+.entrar:hover {
+    border: 2px solid #7DB185;
+    background-color: #F1F56F; 
+    color: #7DB185;
+}
+
+.h1 {
+    font-family: 'Titan One', cursive;
+}

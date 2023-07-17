@@ -1,0 +1,83 @@
+.createPokemonContainer form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    width: 500px ;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100% ;
+    height: fit-content;
+    background-color: rgba(205, 179, 8, 0.636);
+    border: 10px solid rgb(52, 101, 175);
+    border-radius: 15px;
+    padding: 10px;
+}
+.inputsAndTypes{
+    display: flex;
+    gap: 1rem;
+}
+.containerForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    gap: 80px;
+}
+.inputs{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.inputs div{
+    display: flex;
+    flex-direction: column;
+}
+.typesCreate{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+.types{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.homeButton {
+    width: 100px;
+    height: 30px;
+    border-radius: 30px;
+    align-self: center;
+    background-color: #7DB185;
+    color: #F1F56F;
+    border: 2px solid #F1F56F;
+    transition-duration: 0.4s;
+    font-family: 'Fuzzy Bubbles', cursive;
+    font-size: medium;
+    font-style: oblique;
+    font-weight: bold;
+}
+
+.homeButton:hover {
+    border: 2px solid #7DB185;
+    background-color: #F1F56F; 
+    color: #7DB185;
+}
+
+
+
+
+
+.error{
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 400px;
+    color: red;
+}
