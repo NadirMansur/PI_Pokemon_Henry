@@ -8,9 +8,6 @@ const Nav = ({onSearch}) =>{
             <Link to="/form">
             <button>¡Crear Pokemon!</button>
             </Link>
-            <Link to="/favorites">
-            <button>Favoritos</button>
-            </Link>
             <SearchBar onSearch={onSearch} />
         </div>
     )

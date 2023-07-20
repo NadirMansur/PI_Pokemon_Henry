@@ -1,83 +1,83 @@
-.createPokemonContainer form{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    width: 500px ;
-}
-.form{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100% ;
-    height: fit-content;
-    background-color: rgba(205, 179, 8, 0.636);
-    border: 10px solid rgb(52, 101, 175);
-    border-radius: 15px;
-    padding: 10px;
-}
-.inputsAndTypes{
-    display: flex;
-    gap: 1rem;
-}
-.containerForm{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    gap: 80px;
-}
-.inputs{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-}
-.inputs div{
-    display: flex;
-    flex-direction: column;
-}
-.typesCreate{
-    display: grid;
-    grid-template-columns: auto auto;
-}
-.types{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
 .homeButton {
-    width: 100px;
-    height: 30px;
-    border-radius: 30px;
-    align-self: center;
-    background-color: #7DB185;
-    color: #F1F56F;
-    border: 2px solid #F1F56F;
-    transition-duration: 0.4s;
-    font-family: 'Fuzzy Bubbles', cursive;
-    font-size: medium;
-    font-style: oblique;
-    font-weight: bold;
+  width: 100px;
+  height: 30px;
+  border-radius: 30px;
+  align-self: center;
+  background-color: #7db185;
+  color: #f1f56f;
+  border: 2px solid #f1f56f;
+  transition-duration: 0.4s;
+  font-family: "Fuzzy Bubbles", cursive;
+  font-size: medium;
+  font-style: oblique;
+  font-weight: bold;
 }
 
 .homeButton:hover {
-    border: 2px solid #7DB185;
-    background-color: #F1F56F; 
-    color: #7DB185;
+  border: 2px solid #7db185;
+  background-color: #f1f56f;
+  color: #7db185;
 }
-
-
-
-
-
-.error{
-    display:flex;
+.containerForm {
+  background-image: url(../../../src/assets/CrearPokemon.jpg);
+  background-size: cover;
+  background-position: center center;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: space-evenly;
+  align-items: center;
+  gap: 30px;
+  color:blanchedalmond
+}
+.createPokemonContainer {
+  background-color: rgba(41, 41, 41, 0.38);
+  border-radius: 30px;
+  display: flex;
+  justify-content:space-around;
+  align-items: center;
+  width: 500px;
+  gap:10px;
+}
+.error {
+    display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     width: 400px;
     color: red;
+    background-color: #ffffffc8;
+    border-radius: 30px;
+  }
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.inputs div {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkBox {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 200px;
+  gap: 5px;
+  background-color: rgba(0, 0, 0, 0.568);
+  border-radius: 15px;
+}
+
+.filtro {
+  border-radius: 5px;
+  background-color: #7db185;
+  color: #f1f56f;
+  border: 2px solid #f1f56f;
+  width: 100px;
 }

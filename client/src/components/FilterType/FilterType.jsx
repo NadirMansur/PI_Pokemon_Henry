@@ -2,7 +2,7 @@ import style from "./FilterType.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { actualizarFiltroTipo } from "../../redux/actions/actions";
 import { filtroXtipo, filterCards } from "../../redux/actions/actions.js";
-import React, { useEffect } from "react";
+import  { React, useEffect } from "react";
 
 const FilterType = () => {
   const dispatch = useDispatch();
