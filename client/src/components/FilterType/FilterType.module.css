@@ -4,11 +4,9 @@
   width: 400px;
   justify-content: space-between;
   gap: 5px;
- 
 }
 
 .filtro {
-
   border-radius: 5px;
   background-color: #7db185;
   color: #f1f56f;

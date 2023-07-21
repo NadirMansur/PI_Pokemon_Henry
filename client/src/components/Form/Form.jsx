@@ -1,12 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-//import { createPokemon, getTypes, empty } from "../../Redux/Actions/index";
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import style from "../Form/Form.module.css";
 import axios from "axios";
 import { cargarBDD } from "../../redux/actions/actions.js";
-import { actualizarTypes } from "../../redux/actions/actions";
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -19,73 +17,54 @@ const Form = () => {
   const regexLink = /^(ftp|http|https):\/\/[^ "]+$/;
   ////////////////////////////////////////////////////////////////
   const validate = (input) => {
-    console.log("input", input);
     const error = {};
     if (!input.name) {
-      console.log("Name vacio");
       error["name"] = "Name vacio";
     }
     if (!regexNombre.test(input.name)) {
-      console.log("Name deben ser caracteres minusculas y no conte");
       error["name"] =
         "Name deben ser caracteres minusculas y no contener numeros ni simbolos";
     } else {
-      console.log("se seteo en 0 los errores");
       error["name"] = "";
     }
     if (!input.hp) {
-      console.log("HP vacio");
       error["hp"] = "HP vacio";
     }
     if (!regexHpAtkDef.test(input.hp)) {
-      console.log("Debe ser un número esté en el rango ");
       error["hp"] = "Debe ser un número esté en el rango de 1 a 255";
     } else {
-      console.log("se seteo en 0 los errores");
       error["hp"] = "";
     }
     if (!input.attack) {
-      console.log("Ataque vacio");
       error["attack"] = "Ataque vacio";
     }
     if (!regexHpAtkDef.test(input.attack)) {
-      console.log("Debe ser un número esté en el rango de 1 a 255");
       error["attack"] = "Debe ser un número esté en el rango de 1 a 255";
     } else {
-      console.log("se seteo en 0 los errores");
       error["attack"] = "";
     }
     if (!input.defense) {
-      console.log("defensa vacio");
       error["defense"] = "defensa vacio";
     }
     if (!regexHpAtkDef.test(input.defense)) {
-      console.log("Debe ser un número esté en el rango de 1 a 255");
       error["defense"] = "Debe ser un número esté en el rango de 1 a 255";
     } else {
-      console.log("se seteo en 0 los errores");
       error["defense"] = "";
     }
     if (!input.height) {
-      console.log("Altura vacio");
       error["height"] = "Altura vacio";
     }
     if (!regexAlt.test(input.height)) {
-      console.log("Debe ser un número esté en el rango de 1 a 600");
       error["height"] = "Debe ser un número esté en el rango de 1 a 600";
     } else {
-      console.log("se seteo en 0 los errores");
       error["height"] = "";
     }
     if (!input.image) {
-      console.log("Imagen vacia");
       error["image"] = error["image"] = "Imagen vacia";
     }
     if (!regexLink.test(input.image)) {
-      console.log("Debe se un link que dirija a la imagen");
       error["image"] = "Debe se un link que dirija a la imagen";
     } else {
-      console.log("se seteo en 0 los errores");
       error["image"] = "";
     }
     setErrors(error);
@@ -93,8 +72,6 @@ const Form = () => {
   const validateTypes = (types) => {
     const error = {};
     if (types.length <= 0) {
-      console.log("types", types);
-      console.log("Debe tener al menos un tipo de pokemon");
       error["types"] = "Debe tener al menos un tipo de pokemon";
     } else {
       error["types"] = "";
@@ -126,7 +103,6 @@ const Form = () => {
     { box: "shadow", state: false },
   ]);
   const [types, setTypes] = useState([]);
-  const history = useHistory(); ///////////////HISTORY para vovler a HOME
   ////////
   //const state = useSelector((state) => state);
   //const types = state.types;
@@ -184,16 +160,13 @@ const Form = () => {
           return item;
         });
         setFilterType(updatedFilterType);
-        console.log(`filterType[${i}].state`, updatedFilterType[i].state);
       }
     }
   };
 
   const postPokemon = async function (pokemon) {
     try {
-      console.log("pokemon", pokemon);
       await axios.post("http://localhost:3001/api/pokemons", pokemon);
-      console.log("entre al postPokemon, y e hice la peticion al axios");
       window.alert("Pokemon registrado con exito");
       dispatch(cargarBDD());
     } catch (error) {
@@ -207,13 +180,6 @@ const Form = () => {
 
   const submitHandler = (e) => {
     e.preventDefault(e);
-    console.log(errors.name.length === 0);
-    console.log(errors.hp != "");
-    console.log(errors.attack != "");
-    console.log(errors.defense !== "");
-    console.log(errors.height !== "");
-    console.log(errors.image !== "");
-    console.log(errorTypes.types !== "");
     if (
       errors.name.length <= 0 &&
       errors.hp.length === 0 &&
@@ -223,7 +189,6 @@ const Form = () => {
       errors.image.length === 0 &&
       errorTypes.types.length === 0
     ) {
-      console.log("entre al submitHandler y voy a hacer un postPokemon");
       postPokemon({
         Vida: Number(input.hp),
         Ataque: Number(input.attack),
@@ -233,21 +198,19 @@ const Form = () => {
         type: types,
         imagen: input.image,
       });
-      // setInput({
-      //   name: "",
-      //   hp: "",
-      //   attack: "",
-      //   defense: "",
-      //   height: "",
-      //   image: "",
-      // });
-      //setTypes([]);
-      //borrarCheck();
+      setInput({
+        name: "",
+        hp: "",
+        attack: "",
+        defense: "",
+        height: "",
+        image: "",
+      });
+      setTypes([]);
+      borrarCheck();
     } else {
-      console.log("errors y errorTypes", errors, errorTypes);
       window.alert("tienes un error en la carga del formulario");
     }
-    //dispatch(empty());
     // history.push("/home");
   };
   ////////////////////////////////////////////////////////////////////////////////////

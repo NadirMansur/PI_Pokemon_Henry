@@ -1,57 +1,55 @@
-
-.background{
-    background-image: url(../../../src/assets/Home1.jpg);
-    background-size: cover;
-    background-position: center center;
-    height: 100%;
-    width: 100%;
+.background {
+  background-image: url(../../../src/assets/Home1.jpg);
+  background-size: cover;
+  background-position: center center;
+  height: 100%;
+  width: 100%;
 }
 
-.cards { /*es toda la pantalla*/
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    gap:20px;
+.cards {
+  /*es toda la pantalla*/
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.galeria{
-    display: flex;
-    justify-content: center;
-
+.galeria {
+  display: flex;
+  justify-content: center;
 }
 
-.cartas{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content:space-evenly;
-    gap: 50px;
-    width: 80%;
-    height: 600px; /* Altura máxima del contenedor */
-    overflow-y: scroll;
+.cartas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 50px;
+  width: 80%;
+  height: 600px; /* Altura máxima del contenedor */
+  overflow-y: scroll;
 }
-
 
 .entrar {
-    width: 150px;
-    height: 50px;
-    border-radius: 30px;
-    align-self: center;
-    background-color: #7DB185;
-    color: #F1F56F;
-    border: 2px solid #F1F56F;
-    transition-duration: 0.4s;
-    font-family: 'Fuzzy Bubbles', cursive;
-    font-size: medium;
-    font-style: oblique;
-    font-weight: bold;
+  width: 150px;
+  height: 50px;
+  border-radius: 30px;
+  align-self: center;
+  background-color: #7db185;
+  color: #f1f56f;
+  border: 2px solid #f1f56f;
+  transition-duration: 0.4s;
+  font-family: "Fuzzy Bubbles", cursive;
+  font-size: medium;
+  font-style: oblique;
+  font-weight: bold;
 }
 
 .entrar:hover {
-    border: 2px solid #7DB185;
-    background-color: #F1F56F; 
-    color: #7DB185;
+  border: 2px solid #7db185;
+  background-color: #f1f56f;
+  color: #7db185;
 }
 
 .link {
-    text-decoration: none;
-  }
+  text-decoration: none;
+}

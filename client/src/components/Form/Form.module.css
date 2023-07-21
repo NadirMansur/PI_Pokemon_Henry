@@ -30,26 +30,26 @@
   align-content: space-evenly;
   align-items: center;
   gap: 30px;
-  color:blanchedalmond
+  color: blanchedalmond;
 }
 .createPokemonContainer {
   background-color: rgba(41, 41, 41, 0.38);
   border-radius: 30px;
   display: flex;
-  justify-content:space-around;
+  justify-content: space-around;
   align-items: center;
   width: 500px;
-  gap:10px;
+  gap: 10px;
 }
 .error {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    width: 400px;
-    color: red;
-    background-color: #ffffffc8;
-    border-radius: 30px;
-  }
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 400px;
+  color: red;
+  background-color: #ffffffc8;
+  border-radius: 30px;
+}
 
 .inputs {
   display: flex;

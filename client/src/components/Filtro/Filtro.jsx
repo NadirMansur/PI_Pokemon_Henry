@@ -1,6 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import style from "./Filtro.module.css";
-import { useEffect, useState } from "react";
 import FilterType from "../FilterType/FilterType";
 import {
   filterCards,
@@ -15,10 +14,6 @@ const Filtros = ({ setnumeroPagina }) => {
 
   const handleFilter = (event) => {
     const origen = event.target.value;
-    console.log(
-      "FILTRO,js handleFilter, se realizo el dispatch filterCards con origen ",
-      origen
-    );
     setnumeroPagina(1);
     dispatch(filterCards(origen));
     dispatch(ultimoFiltro(origen));
@@ -26,10 +21,6 @@ const Filtros = ({ setnumeroPagina }) => {
 
   const handleSort = (event) => {
     const order = event.target.value;
-    console.log(
-      "FILTRO.js handleSort, se realizo el dispatch filterCards con order ",
-      order
-    );
     dispatch(orderCards(order));
     dispatch(ultimoFiltro(order));
   };

@@ -1,6 +1,4 @@
 import {
-  ADD_FAV,
-  REMOVE_FAV,
   ORDER,
   FILTRO_TIPO,
   FILTER,
@@ -96,40 +94,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         filtro: payload,
       };
-    //     case ADD_FAV:
-    //         return {myFavorites: payload, allCharacters: payload };
 
-    //     case REMOVE_FAV:
-    //         return {
-    //             ...state,
-    //             myFavorites: state.allCharacters.filter((char)=> char.id != payload),
-    //             allCharacters: state.allCharacters.filter((char)=> char.id != payload)
-    //         }
-
-    //     case REMOVE_FAV:
-
-    //         return {myFavorites: payload, allCharacters: payload }
-    //     ;
-    //         case FILTER:
-    //             return {
-    //                 ...state,
-    //                 myFavorites : state.allCharacters.filter((char)=> char.gender === payload)
-    //             }
-    //             ;
-    //         case ORDER:
-    //             return {
-    //                 ...state,
-    //                 myFavorites : state.allCharacters.sort((a,b)=> {
-    //                     if(a.id > b.id){
-    //                         return payload === "A" ? 1: -1;
-    //                     }
-    //                     if(a.id < b.id){
-    //                         return payload === "A" ? -1: 1;
-    //                     }
-    //                     return 0;
-    //                 })
-    //             }
-    //             ;
     default:
       return {
         ...state,

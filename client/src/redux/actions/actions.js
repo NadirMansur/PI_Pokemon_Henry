@@ -1,8 +1,5 @@
 import axios from "axios";
-//import { useSelector, useDispatch } from "react-redux";
 import {
-  ADD_FAV,
-  REMOVE_FAV,
   FILTER,
   LAST_FILTER,
   ALL_POKE,
@@ -15,14 +12,14 @@ import {
 
 ///revisar operaciones asincronas
 
-export const actualizarTypes = (aux) =>{
+export const actualizarTypes = (aux) => {
   return (dispatch) => {
     dispatch({
       type: ACTUALIZAR_TYPES,
       payload: aux,
     });
   };
-}
+};
 
 export const actualizarFiltroTipo = (filterType) => {
   return (dispatch) => {
@@ -34,11 +31,9 @@ export const actualizarFiltroTipo = (filterType) => {
 };
 
 export const cargarBDD = () => {
-  console.log("Actions.js Entre a cargarBDD");
   return async (dispatch) => {
     try {
       const { data } = await axios("http://localhost:3001/api/pokemons");
-      console.log("Actions.js data para cargarBDD", data);
       dispatch({
         type: CARGA_BDD,
         payload: data,
@@ -49,13 +44,7 @@ export const cargarBDD = () => {
   };
 };
 
-export const agregarBDD = () => {};
-
 export const ultimoFiltro = (string) => {
-  console.log("Actions.js entre a ultimoFiltro");
-  console.log(
-    `Actions.js dispatch({   type: LAST_FILTER,      payload: ${string},`
-  );
   return (dispatch) => {
     dispatch({
       type: LAST_FILTER,
@@ -65,7 +54,6 @@ export const ultimoFiltro = (string) => {
 };
 
 export const filterCards = (origen) => {
-  console.log("ACTIONS:JS entre a la funcion filterCards");
   return async (dispatch, getState) => {
     try {
       //////////comente este espacio de codigo a ver si funciona //////
@@ -75,51 +63,22 @@ export const filterCards = (origen) => {
       const bddData = state.BDD;
       const apiPokeData = state.apiPoke;
       const allData = [...bddData, ...apiPokeData];
-      console.log(
-        "filterCards: bddData, apiPokeData, y allData son:  ",
-        bddData,
-        apiPokeData,
-        allData
-      );
-      console.log(
-        "en actions.js filterCards, origin antes del switch es: ",
-        origen
-      );
       switch (origen) {
         case "todosLosPokes":
-          console.log(
-            "CASE selecionar por",
-            origen,
-            "se hace un dispatch de FILTER"
-          );
-          console.log(
-            "////////////////////////////////////////////////////////////////////////////////////////////////"
-          );
           return dispatch({
             type: FILTER,
             payload: allData,
           });
         case "laBDD":
-          console.log("a CASE selecionar por", origen);
-          console.log(
-            "////////////////////////////////////////////////////////////////////////////////////////////////"
-          );
           return dispatch({
             type: FILTER,
             payload: bddData,
           });
         case "porAPI":
-          console.log("a CASE selecionar por", origen);
-          console.log("ingrese a actions.js y ejectue caso API");
-          console.log("voy a hacer el dispatch con apiPokeData", apiPokeData);
-          console.log(
-            "////////////////////////////////////////////////////////////////////////////////////////////////"
-          );
           return dispatch({
             type: FILTER,
             payload: apiPokeData,
           });
-
         default:
           return dispatch({
             type: FILTER,
@@ -137,9 +96,7 @@ export const filtroXtipo = (filtros) => {
   /////// FILTRE POR TIPO ////////
   return (dispatch, getState) => {
     const state = getState();
-    console.log("/////////////// filtroXtipo ////////////////");
     const filtrados = state.filtro;
-    console.log("filtrados ", filtrados);
     const filtro_filtrado = [...filtrados].filter((pokemon) => {
       for (let filtro of filtros) {
         for (let propiedad in pokemon) {
@@ -160,11 +117,6 @@ export const filtroXtipo = (filtros) => {
       }
       return false;
     });
-    console.log(
-      "entre a la action filtroXtipo y payload es ",
-      filtro_filtrado,
-      "type: FILTRO_TIPO"
-    );
     dispatch({
       type: FILTRO_TIPO,
       payload: filtro_filtrado,
@@ -177,8 +129,6 @@ export const orderCards = (order) => {
     try {
       const state = await getState(); // Obtener el estado actual
       const filtrados = state.filtro;
-      console.log("actions.js, orderCards, antes de switch order es: ", order);
-      console.log("y filtrados es: ", filtrados);
       switch (order) {
         case "AA":
           return dispatch({
@@ -221,7 +171,6 @@ export const orderCards = (order) => {
 };
 
 export const agregarApi = (poke) => {
-  console.log("Actions.js entre a agregarApi");
   return async (dispatch) => {
     try {
       dispatch({
@@ -235,7 +184,6 @@ export const agregarApi = (poke) => {
 };
 
 export const allPoke = () => {
-  console.log("Actions.js entre a allPoke");
   return async (dispatch, getState) => {
     try {
       const state = await getState(); // Obtener el estado actual

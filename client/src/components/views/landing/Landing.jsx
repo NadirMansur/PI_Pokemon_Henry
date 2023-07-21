@@ -1,14 +1,5 @@
 import { Link } from "react-router-dom";
 import style from "./Landing.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import {
-  cargarBDD,
-  borrarState,
-  allPoke,
-  filterCards,
-  agregarApi,
-} from "../../../redux/actions/actions";
 
 const Landing = () => {
   return (
