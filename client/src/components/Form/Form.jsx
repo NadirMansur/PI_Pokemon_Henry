@@ -4,6 +4,10 @@ import { Link, useHistory } from "react-router-dom";
 //import { createPokemon, getTypes, empty } from "../../Redux/Actions/index";
 import { useDispatch, useSelector } from "react-redux";
 import style from "../Form/Form.module.css";
+import axios from "axios";
+import { cargarBDD } from "../../redux/actions/actions.js";
+import { actualizarTypes } from "../../redux/actions/actions";
+
 //////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////
@@ -86,12 +90,20 @@ const Form = () => {
     }
     setErrors(error);
   };
-
+  const validateTypes = (types) => {
+    const error = {};
+    if (types.length <= 0) {
+      console.log("types", types);
+      console.log("Debe tener al menos un tipo de pokemon");
+      error["types"] = "Debe tener al menos un tipo de pokemon";
+    } else {
+      error["types"] = "";
+    }
+    setErrorTypes(error);
+  };
   const dispatch = useDispatch();
-  /////////////////// TOMA DEL ESTADO GLOBAL LOS TYPES //////////////////
   /////////////////// YO los types los tengo en ischecked //////////////////
-  const aux = useSelector((state) => state.isChecked);
-  const filterType = [
+  const [filterType, setFilterType] = useState([
     { box: "normal", state: false },
     { box: "fighting", state: false },
     { box: "flying", state: false },
@@ -112,10 +124,13 @@ const Form = () => {
     { box: "fairy", state: false },
     { box: "unknown", state: false },
     { box: "shadow", state: false },
-  ];
-
+  ]);
+  const [types, setTypes] = useState([]);
   const history = useHistory(); ///////////////HISTORY para vovler a HOME
-
+  ////////
+  //const state = useSelector((state) => state);
+  //const types = state.types;
+  ////////
   /////////////////// CREA UN ESTADO LOCAL DE INPUTS O CAMPOS //////////////////
   const [input, setInput] = useState({
     name: "", ////////////Debe ser in MINUSCULA, No tener mas de no tener mas 15 caractere, no contener numeros o simbolos,
@@ -124,7 +139,6 @@ const Form = () => {
     defense: "",
     height: "",
     image: "",
-    types:[],
   });
   ////////////////    CREA UN ESTADO LOCAL DE ERRORES    //////////////////
   const [errors, setErrors] = useState({
@@ -134,72 +148,106 @@ const Form = () => {
     defense: "",
     height: "",
     image: "",
-    types: "", /////// error decada string, hay que ahcer un boton por types //////////////////
   });
+  const [errorTypes, setErrorTypes] = useState({});
+  ////////////////////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    const aux = [...filterType].filter((tipo) => tipo.state === true);
+    const aux2 = [];
+    for (let i = 0; i < aux.length; i++) {
+      aux2.push(aux[i].box);
+    }
+    setTypes(aux2);
+  }, [filterType]);
+  useEffect(() => {
+    validateTypes(types);
+  }, [types]);
   /////////////////////////////////Validacion de input/////////////////////////////////////////
   const handleChange = (e) => {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
     });
-    validate({ ...input, [e.target.name]: e.target.value });
+    validate({ ...input, [e.target.name]: e.target.value }, types);
   };
 
   //////// hay q ue modificar el handleType para que agregue al array //////////////
   //////// de types el valor de e.target.value si cumple con las condiciones////////
   const handleOnChange = (event) => {
-    event.preventDefault();
     const caso = event.target.value;
     for (let i = 0; i < filterType.length; i++) {
       if (filterType[i].box === caso) {
-        filterType[i].state = !filterType[i].state;
-        console.log(`filterType[${i}].state`, filterType[i].state);
+        const updatedFilterType = filterType.map((item, index) => {
+          if (index === i) {
+            return { ...item, state: !item.state };
+          }
+          return item;
+        });
+        setFilterType(updatedFilterType);
+        console.log(`filterType[${i}].state`, updatedFilterType[i].state);
       }
     }
-    console.log("filterType", filterType);
-    const aux3 = filterType;
-    const aux = aux3.filter((tipo) => tipo.state === true);
-    const aux2 = [];
-    console.log("aux", aux);
-    for (let i = 0; i < aux.length; i++) {
-      console.log("aux[i].box", aux[i].box);
-      aux2.push(aux[i].box);
-    }
-    console.log("aux2", aux2);
-    global = aux2;
   };
-  let global = [];
+
+  const postPokemon = async function (pokemon) {
+    try {
+      console.log("pokemon", pokemon);
+      await axios.post("http://localhost:3001/api/pokemons", pokemon);
+      console.log("entre al postPokemon, y e hice la peticion al axios");
+      window.alert("Pokemon registrado con exito");
+      dispatch(cargarBDD());
+    } catch (error) {
+      window.alert(error);
+    }
+  };
+
+  const borrarCheck = () => {
+    filterType.forEach((item) => (item.state = false));
+  };
+
   const submitHandler = (e) => {
-    console.log("global",global)
-    // e.preventDefglobalault(e);
-    // dispatch(
-    //   createPokemon({
-    //     name: input.name,
-    //     hp: Number(input.hp),
-    //     attack: Number(input.attack),
-    //     defense: Number(input.defense),
-    //     speed: Number(input.speed),
-    //     height: Number(input.height),
-    //     weight: Number(input.weight),
-    //     image: input.image,
-    //     types: input.types.map((type) => {
-    //       for (let i = 0; i < types.length; i++) {
-    //         if (types[i].name === type) return types[i].id;
-    //       }
-    //     }),
-    //   })
-    // );
-    //alert("Pokemon registrado con exito");
-    // setInput({
-    //   name: "",
-    //   hp: "",
-    //   attack: "",
-    //   defense: "",
-    //   height: "",
-    //   image: "",
-    //   types: [],
-    // });
-    // //dispatch(empty());
+    e.preventDefault(e);
+    console.log(errors.name.length === 0);
+    console.log(errors.hp != "");
+    console.log(errors.attack != "");
+    console.log(errors.defense !== "");
+    console.log(errors.height !== "");
+    console.log(errors.image !== "");
+    console.log(errorTypes.types !== "");
+    if (
+      errors.name.length <= 0 &&
+      errors.hp.length === 0 &&
+      errors.attack.length === 0 &&
+      errors.defense.length === 0 &&
+      errors.height.length === 0 &&
+      errors.image.length === 0 &&
+      errorTypes.types.length === 0
+    ) {
+      console.log("entre al submitHandler y voy a hacer un postPokemon");
+      postPokemon({
+        Vida: Number(input.hp),
+        Ataque: Number(input.attack),
+        Defensa: Number(input.defense),
+        Altura: Number(input.height),
+        name: input.name,
+        type: types,
+        imagen: input.image,
+      });
+      // setInput({
+      //   name: "",
+      //   hp: "",
+      //   attack: "",
+      //   defense: "",
+      //   height: "",
+      //   image: "",
+      // });
+      //setTypes([]);
+      //borrarCheck();
+    } else {
+      console.log("errors y errorTypes", errors, errorTypes);
+      window.alert("tienes un error en la carga del formulario");
+    }
+    //dispatch(empty());
     // history.push("/home");
   };
   ////////////////////////////////////////////////////////////////////////////////////
@@ -303,29 +351,29 @@ const Form = () => {
                 </div>
               </div>
             </div>
-            <div>
-              <div className={style.checkBox}>
-                {filterType.map((tipo, index) => (
-                  <div key={index} className={style.filtro}>
-                    <label>
-                      {`${tipo.box}`}
-                      <input
-                        type="checkbox"
-                        value={filterType[index].box}
-                        checked={filterType[index].state}
-                        onChange={handleOnChange}
-                      ></input>
-                    </label>
-                  </div>
-                ))}
-              </div>
-              <div className={style.error}>
-                {errors.types && <span>{errors.types}</span>}
-              </div>
-            </div>
           </div>
           <div>
             <button type="submit">Crear Pokemón</button>
+          </div>
+          <div>
+            <div className={style.checkBox}>
+              {filterType.map((tipo, index) => (
+                <div key={index} className={style.filtro}>
+                  <label>
+                    {`${tipo.box}`}
+                    <input
+                      type="checkbox"
+                      value={filterType[index].box}
+                      checked={filterType[index].state}
+                      onChange={handleOnChange}
+                    ></input>
+                  </label>
+                </div>
+              ))}
+            </div>
+            <div className={style.error}>
+              {errorTypes.types && <span>{errorTypes.types}</span>}
+            </div>
           </div>
         </form>
       </div>

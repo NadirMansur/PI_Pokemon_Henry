@@ -44,7 +44,6 @@ export default function Detail () {
                         <h1>Detail:</h1>
                         <h3>ID: {pok.id}</h3>
                         <h3>Nombre: {pok.name}</h3>
-                        <h3>Altura: {pok.Altura}</h3>
                         <h3>Vida: {pok.Vida}</h3>
                         <h3>Ataque: {pok.Ataque}</h3>
                         <h3>Defensa: {pok.Defensa}</h3>

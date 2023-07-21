@@ -10,3 +10,4 @@ export const ORDENADO = "ORDENADO";
 export const API_POKE = "API_POKE";
 export const ALL_POKE = "ALL_POKE";
 export const CARGA_BDD = "CARGA_BDD";
+export const ACTUALIZAR_TYPES = "ACTUALIZAR_TYPES";

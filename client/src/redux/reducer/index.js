@@ -9,6 +9,7 @@ import {
   API_POKE,
   ALL_POKE,
   CARGA_BDD,
+  ACTUALIZAR_TYPES,
 } from "../actions/types";
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   filtro: [],
   filtroTipo: [],
   ultimoFiltro: "todosLosPokes",
+  types: [],
   isChecked: [
     { box: "normal", state: false },
     { box: "fighting", state: false },
@@ -44,6 +46,11 @@ const initialState = {
 
 const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case ACTUALIZAR_TYPES:
+      return {
+        ...state,
+        types: payload,
+      };
     case CARGA_BDD:
       return {
         ...state,

@@ -10,9 +10,19 @@ import {
   CARGA_BDD,
   FILTRO_TIPO,
   ACTUALIZAR_FILTRO_TIPO,
+  ACTUALIZAR_TYPES,
 } from "./types";
 
 ///revisar operaciones asincronas
+
+export const actualizarTypes = (aux) =>{
+  return (dispatch) => {
+    dispatch({
+      type: ACTUALIZAR_TYPES,
+      payload: aux,
+    });
+  };
+}
 
 export const actualizarFiltroTipo = (filterType) => {
   return (dispatch) => {
