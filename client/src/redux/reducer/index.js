@@ -9,16 +9,15 @@ import {
   CARGA_BDD,
   ACTUALIZAR_TYPES,
 } from "../actions/types";
-
-const initialState = {
-  BDD: [],
-  apiPoke: [],
-  allPoke: [],
-  filtro: [],
-  filtroTipo: [],
-  ultimoFiltro: "todosLosPokes",
-  types: [],
-  isChecked: [
+ const initialState = {
+  BDD: [], // Base de datos
+  apiPoke: [], // Datos de la API de Pokemon
+  allPoke: [], // Todos los Pokemon
+  filtro: [], // Resultados filtrados
+  filtroTipo: [], // Filtro por tipo
+  ultimoFiltro: "todosLosPokes", // Último filtro aplicado
+  types: [], // Tipos de Pokemon disponibles
+  isChecked: [ // Estado de las casillas de verificación de tipo de Pokemon
     { box: "normal", state: false },
     { box: "fighting", state: false },
     { box: "flying", state: false },
@@ -41,8 +40,7 @@ const initialState = {
     { box: "shadow", state: false },
   ],
 };
-
-const rootReducer = (state = initialState, { type, payload }) => {
+ const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case ACTUALIZAR_TYPES:
       return {
@@ -54,20 +52,17 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         BDD: payload,
       };
-
-    case API_POKE:
+     case API_POKE:
       return {
         ...state,
         apiPoke: [...state.apiPoke, payload],
       };
-
-    case ALL_POKE:
+     case ALL_POKE:
       return {
         ...state,
         allPoke: payload,
       };
-
-    case FILTRO_TIPO:
+     case FILTRO_TIPO:
       return {
         ...state,
         filtroTipo: payload,
@@ -82,24 +77,20 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         filtro: payload,
       };
-
-    case LAST_FILTER:
+     case LAST_FILTER:
       return {
         ...state,
         ultimoFiltro: payload,
       };
-
-    case ORDER:
+     case ORDER:
       return {
         ...state,
         filtro: payload,
       };
-
-    default:
+     default:
       return {
         ...state,
       };
   }
 };
-
-export default rootReducer;
+ export default rootReducer;
