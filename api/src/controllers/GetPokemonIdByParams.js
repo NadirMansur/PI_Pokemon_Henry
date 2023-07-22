@@ -1,12 +1,12 @@
 const axios = require("axios");
 const { Pokemon, Type } = require("../db");
-
-const getPokemonIdByParams = async (req, res) => {
+ const getPokemonIdByParams = async (req, res) => {
   const id = req.params.idPokemon;
   try {
     const pokemon = await Pokemon.findByPk(id, {
       include: Type,
     });
+     // Si el pokemon no existe en la base de datos, se obtiene de la API
     if (pokemon === null) {
       const { data } = await axios.get(
         `https://pokeapi.co/api/v2/pokemon/${id}`
@@ -23,11 +23,11 @@ const getPokemonIdByParams = async (req, res) => {
       };
       res.status(200).json(pokemon);
     } else {
+      // Si el pokemon existe en la base de datos, se devuelve tal cual
       res.status(200).json(pokemon);
     }
   } catch (error) {
     res.status(500).send(error);
   }
 };
-
-module.exports = getPokemonIdByParams;
+ module.exports = getPokemonIdByParams;

@@ -1,5 +1,4 @@
 const { Pokemon, Type } = require("../db");
-
 const postPokemonByBody = async (req, res) => {
   try {
     const data = req.body;
@@ -12,7 +11,7 @@ const postPokemonByBody = async (req, res) => {
       type: data.type,
       imagen: data.imagen,
     };
-
+    // Crear un nuevo registro de Pokemon en la base de datos
     const pokemonCreado = await Pokemon.create({
       Vida: pokemon.Vida,
       Ataque: pokemon.Ataque,
@@ -21,22 +20,22 @@ const postPokemonByBody = async (req, res) => {
       name: pokemon.name,
       imagen: pokemon.imagen,
     });
+    // Obtener los IDs de los tipos de Pokemon asociados al Pokemon creado
     const typeIds = await Type.findAll({
       attributes: ["id"],
       where: {
         type: pokemon.type,
       },
     });
+    // Crear un array con los IDs de los tipos de Pokemon
     const typeIdsArray = typeIds.map((type) => type.id);
+    // Asociar los tipos de Pokemon al Pokemon creado
     pokemonCreado.addType(typeIdsArray);
-    //enviar Json con el objeto Pokemon
+    // Enviar una respuesta JSON con el objeto Pokemon creado
     res.status(200).json(pokemon);
-    //res.status(200).json(data)
-    //res.status(200).send("data")
   } catch (error) {
-    //MANEJO DE ERRORES EN LA BASE DE DATOS
+    // Manejo de errores en la base de datos
     res.status(500).json({ message: error.message });
   }
 };
-
 module.exports = postPokemonByBody;

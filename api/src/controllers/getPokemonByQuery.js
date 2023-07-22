@@ -1,8 +1,7 @@
 const axios = require("axios");
 const { Pokemon, Type } = require("../db");
 const { Op } = require("sequelize");
-
-const getPokemonByQuery = async (req, res) => {
+ const getPokemonByQuery = async (req, res) => {
   try {
     const { name } = req.query;
     // BUSCAR EN LA DE BASE DE DATOS LA INFO PASADA POR QUERY
@@ -14,6 +13,7 @@ const getPokemonByQuery = async (req, res) => {
       },
       include: Type,
     });
+    // Si no se encuentra ningún pokemon en la base de datos, se obtiene de la API
     if (pokemon /*.length*/ === /*0*/ null) {
       const { data } = await axios.get(
         `https://pokeapi.co/api/v2/pokemon/${name}`
@@ -30,6 +30,7 @@ const getPokemonByQuery = async (req, res) => {
       };
       res.status(200).json(pokemon);
     } else {
+      // Si se encuentra el pokemon en la base de datos, se devuelve tal cual
       res.status(200).json(pokemon);
     }
   } catch (error) {
@@ -41,5 +42,4 @@ const getPokemonByQuery = async (req, res) => {
     //res.status(500).json(prueba);
   }
 };
-
-module.exports = getPokemonByQuery;
+ module.exports = getPokemonByQuery;

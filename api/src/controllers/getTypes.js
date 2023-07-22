@@ -1,23 +1,21 @@
 const { Type } = require("../db");
-
-const getTypes = async (req, res) => {
+ const getTypes = async (req, res) => {
   try {
+    // Obtener todos los tipos de Pokemon de la base de datos
     const tipos = await Type.findAll({
       order: [["id", "ASC"]],
     });
-    // const success = {
-    //     result: "success",
-    //     prueba: "prueba getTypes"
-    // }
-    //res.status(200).json(success)
     const types = [];
+    // Recorrer los resultados obtenidos de la base de datos
     tipos.forEach((element) => {
+      // Agregar cada tipo a un array
       types.push(element.type);
     });
+    // Enviar una respuesta JSON con los tipos de Pokemon
     res.status(200).json(types);
   } catch (error) {
-    //MANEJO DE ERRORES EN LA BASE DE DATOS
+    // Manejo de errores en la base de datos
     res.status(500).send(error);
   }
 };
-module.exports = getTypes;
+ module.exports = getTypes;

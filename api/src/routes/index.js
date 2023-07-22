@@ -11,11 +11,20 @@ const { Router } = require("express");
 const router = Router();
 
 // Configurar los routers
-// Ejemplo: router.use('/auth', authRouter);
+
+// Ruta para obtener todos los pokemons
 router.get("/pokemons", getPokemons);
+
+// Ruta para obtener un pokemon por su ID
 router.get("/pokemons/:idPokemon", getPokemonIdByParams);
+
+// Ruta para obtener todos los tipos de pokemons
 router.get("/types", getTypes);
+
+// Ruta para crear un nuevo pokemon
 router.post("/pokemons", postPokemonByBody);
+
+// Ruta para llenar la base de datos con pokemons
 router.post("/pokemons/Llenar_BDD", postLlenarBdd);
 
 module.exports = router;

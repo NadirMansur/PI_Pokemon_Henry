@@ -1,14 +1,12 @@
 const axios = require("axios");
 const { Pokemon, Type } = require("../db");
 const { Op } = require("sequelize");
-//const getPokemonByQuery = require("./getPokemonByQuery")
-
-const getPokemons = async (req, res) => {
-  /////////////// SI TIENE QUERY BUSCA POR QUERY /////////////////
+ const getPokemons = async (req, res) => {
+  // Si la solicitud tiene una query, buscar por el nombre especificado en la query
   if (Object.keys(req.query).length > 0) {
     try {
       const { name } = req.query;
-      // BUSCAR EN LA DE BASE DE DATOS LA INFO PASADA POR QUERY
+      // Buscar en la base de datos la información del pokemon con el nombre especificado en la query
       const pokemon = await Pokemon.findAll({
         where: {
           name: {
@@ -17,12 +15,13 @@ const getPokemons = async (req, res) => {
         },
         include: Type,
       });
-      //si no esta en la BDD, busco en la API
+      // Si el pokemon no está en la base de datos, buscar en la API
       if (pokemon.length === 0) {
         const nameLow = name.toLowerCase();
         const { data } = await axios.get(
           `https://pokeapi.co/api/v2/pokemon/${nameLow}`
         );
+        // Crear un objeto con la información del pokemon obtenida de la API
         const pokemon = {
           id: data.id,
           Vida: data.stats[0].base_stat,
@@ -33,35 +32,29 @@ const getPokemons = async (req, res) => {
           type: data.types,
           imagen: data.sprites.other["official-artwork"].front_default,
         };
+        // Enviar una respuesta JSON con la información del pokemon
         res.status(200).json(pokemon);
       } else {
+        // Enviar una respuesta JSON con la información del pokemon encontrado en la base de datos
         res.status(200).json(pokemon);
       }
     } catch (error) {
-      const prueba = {
-        catch: "entro al catch",
-        error: error,
-      };
+      // En caso de error, enviar una respuesta con el código de estado 500
       res.status(500).send("Error en el servidor");
-      //res.status(500).json(prueba);
     }
   } else {
-    //////////////// SI  NO TIENE QUERY ////////////////
+    // Si la solicitud no tiene una query, buscar la información de todos los pokemons en la base de datos
     try {
-      // BUSCAR EN LA DE BASE DE DATOS LA INFO DE toDOS LOS POKEMONS DE LA BDD
       const pokemons = await Pokemon.findAll({
         order: [["id", "ASC"]],
         include: Type,
       });
+      // Enviar una respuesta JSON con la información de los pokemons
       res.status(200).json(pokemons);
     } catch (error) {
-      //MANEJO DE ERRORES EN LA BASE DE DATOS
-      //if(error.code === 500){
+      // En caso de error, enviar una respuesta con el código de estado 500
       res.status(500).send(error);
-      //}
-      // res.status(404).send(error)
     }
   }
 };
-
-module.exports = getPokemons;
+ module.exports = getPokemons;

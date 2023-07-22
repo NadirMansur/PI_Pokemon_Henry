@@ -4,20 +4,20 @@ const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define(
-    "type",
+    "type", // Nombre del modelo
     {
       id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-        allowNull: false,
+        type: DataTypes.INTEGER, // Tipo de dato para la columna 'id'
+        autoIncrement: true, // Autoincrementar el valor de 'id'
+        primaryKey: true, // Establecer 'id' como clave primaria
+        allowNull: false, // No permitir valores nulos para 'id'
       },
       type: {
-        type: DataTypes.STRING,
-        unique: true,
-        defaultValue: ["normal"],
+        type: DataTypes.STRING, // Tipo de dato para la columna 'type'
+        unique: true, // Establecer 'type' como valor único
+        defaultValue: ["normal"], // Valor por defecto para 'type'
       },
     },
-    { timestamps: false }
+    { timestamps: false } // Desactivar el registro de timestamps (createdAt, updatedAt)
   );
 };
