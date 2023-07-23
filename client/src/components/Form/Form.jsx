@@ -224,7 +224,7 @@ const Form = () => {
         <form onSubmit={submitHandler}>
           <div className={style.inputs}>
             <div>
-              <div>
+              <div className={style.input}>
                 <label className={style.formLabel}>Name:</label>
                 <input
                   autoComplete="off"
@@ -240,7 +240,7 @@ const Form = () => {
                 </div>
               </div>
 
-              <div>
+              <div className={style.input}>
                 <label className={style.formLabel}>Hp:</label>
                 <input
                   type="text"
@@ -255,7 +255,7 @@ const Form = () => {
                 </div>
               </div>
 
-              <div>
+              <div className={style.input}>
                 <label className={style.formLabel}>Attack:</label>
                 <input
                   type="text"
@@ -270,7 +270,7 @@ const Form = () => {
                 </div>
               </div>
 
-              <div>
+              <div className={style.input}>
                 <label className={style.formLabel}>Defense:</label>
                 <input
                   type="text"
@@ -285,7 +285,7 @@ const Form = () => {
                 </div>
               </div>
 
-              <div>
+              <div className={style.input}>
                 <label className={style.formLabel}>Height:</label>
                 <input
                   type="text"
@@ -300,7 +300,7 @@ const Form = () => {
                 </div>
               </div>
 
-              <div>
+              <div className={style.input}>
                 <label className={style.formLabel}>Image:</label>
                 <input
                   type="text"
@@ -313,30 +313,30 @@ const Form = () => {
                   {errors.image && <span>{errors.image}</span>}
                 </div>
               </div>
+              <div>
+                <div className={style.checkBox}>
+                  {filterType.map((tipo, index) => (
+                    <div key={index} className={style.filtro}>
+                      <label>
+                        {`${tipo.box}`}
+                        <input
+                          type="checkbox"
+                          value={filterType[index].box}
+                          checked={filterType[index].state}
+                          onChange={handleOnChange}
+                        ></input>
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                <div className={style.error}>
+                  {errorTypes.types && <span>{errorTypes.types}</span>}
+                </div>
+              </div>
             </div>
           </div>
           <div>
             <button type="submit">Crear Pokemón</button>
-          </div>
-          <div>
-            <div className={style.checkBox}>
-              {filterType.map((tipo, index) => (
-                <div key={index} className={style.filtro}>
-                  <label>
-                    {`${tipo.box}`}
-                    <input
-                      type="checkbox"
-                      value={filterType[index].box}
-                      checked={filterType[index].state}
-                      onChange={handleOnChange}
-                    ></input>
-                  </label>
-                </div>
-              ))}
-            </div>
-            <div className={style.error}>
-              {errorTypes.types && <span>{errorTypes.types}</span>}
-            </div>
           </div>
         </form>
       </div>
