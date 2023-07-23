@@ -18,64 +18,68 @@ import paginado from "../../modulos/paginado.js";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
-  //////////////////////////////////////////////////////////////////////////////////
-  const allPokes = useSelector((state) => state.allPoke);
-  const filtrados = useSelector((state) => state.filtro);
-  const ultimoFiltro = useSelector((state) => state.ultimoFiltro);
-  const filtroTipo = useSelector((state) => state.filtroTipo);
-  //////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+// Obtener los datos del estado utilizando el hook useSelector
+const allPokes = useSelector((state) => state.allPoke);
+const filtrados = useSelector((state) => state.filtro);
+const ultimoFiltro = useSelector((state) => state.ultimoFiltro);
+const filtroTipo = useSelector((state) => state.filtroTipo);
+//////////////////////////////////////////////////////////////////////////////////
+ /////////////////////////////////////////////////////////////////////////
+// Declarar y establecer los estados iniciales
+const [numeroPagina, setnumeroPagina] = useState(1); // Estado para el número de página
+const [size, setsize] = useState(12); // Estado para el tamaño de página
+const [allPages, setallPages] = useState(paginado(filtrados, size)); // Estado para todas las páginas
+const [pokeName, setPokeName] = useState(""); // Estado para el nombre del Pokémon
+const [showPopup, setShowPopup] = useState(false); // Estado para mostrar o no el popup
+/////////////////////////////////////////////////////////////////////////
 
-  /////////////////////////////////////////////////////////////////////
-  const [numeroPagina, setnumeroPagina] = useState(1);
-  const [size, setsize] = useState(12);
-  const [allPages, setallPages] = useState(paginado(filtrados, size));
-  const [pokeName, setPokeName] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
-  /////////////////////////////////////////////////////////////////////
-
-  const inicio = async () => {
-    await dispatch(cargarBDD());
-    dispatch(allPoke());
-  };
-  //////////////////////////////////////////////////////////////////////////////////
-  useEffect(() => {
-    inicio();
-  }, []);
-
-  useEffect(() => {
-    dispatch(filterCards(ultimoFiltro));
-  }, [allPokes]);
-
-  useEffect(() => {
-    setallPages(paginado(filtrados, size));
-  }, [filtrados]);
-  ////////////// LA IDEA ES QUE AL HAGA EL PAGINADO SOBRE OTRO FILTRO MAS ESPECIFICO)
-  useEffect(() => {
-    setallPages(paginado(filtroTipo, size));
-  }, [filtroTipo]);
-  //////////////////////////////////////////////////////////////////////////////////
-
-  ///////////////////////////////////////////////////////////////////////////////////
-  async function onSearch(name) {
-    try {
-      ////////////si es true, ya esta en el paginado /////////////
-      if (buscarEnAllPoke(name, allPokes)) {
-        window.alert("onSearch, !El pokemon ya se encuentra agregado¡");
+const inicio = async () => {
+  // Cargar la base de datos
+  await dispatch(cargarBDD());
+  // Obtener todos los Pokémon
+  dispatch(allPoke());
+};
+//////////////////////////////////////////////////////////////////////////////////
+// Ejecutar la función de inicio al cargar el componente
+useEffect(() => {
+  inicio();
+}, []);
+ // Actualizar las tarjetas filtradas cuando cambian los Pokémon
+useEffect(() => {
+  dispatch(filterCards(ultimoFiltro));
+}, [allPokes]);
+ // Actualizar las páginas cuando cambian las tarjetas filtradas
+useEffect(() => {
+  setallPages(paginado(filtrados, size));
+}, [filtrados]);
+////////////// LA IDEA ES QUE AL HACER EL PAGINADO SOBRE OTRO FILTRO MÁS ESPECÍFICO
+// Actualizar las páginas cuando cambia el filtro de tipo
+useEffect(() => {
+  setallPages(paginado(filtroTipo, size));
+}, [filtroTipo]);
+//////////////////////////////////////////////////////////////////////////////////
+// Actualizar el estado state.apiPoke agregando la data
+const paLaApi = (data) => {
+  dispatch(agregarApi(data));
+  dispatch(allPoke());
+};
+async function onSearch(name) {
+  try {
+    ////////////si es true, ya esta en el paginado /////////////
+    if (buscarEnAllPoke(name, allPokes)) {
+      window.alert("onSearch, !El pokemon ya se encuentra agregado¡");
       } else {
         const { data } = await axios(
           `http://localhost:3001/api/pokemons/?name=${name}`
-        );
-        if (data.hasOwnProperty("type")) {
-          if (data.name !== name) {
-            setPokeName(data.name);
-            setShowPopup(true);
-          } else {
-            // Actualizar el estado state.apiPoke agregando la data
-            const paLaApi = () => {
-              dispatch(agregarApi(data));
-              dispatch(allPoke());
-            };
-            paLaApi();
+          );
+          if (data.hasOwnProperty("type")) {
+            if (data.name !== name) {
+              setPokeName(data.name);
+              setShowPopup(true);
+            } else {
+            paLaApi(data);
+            window.alert("El pokemon fue agregado")
           }
         }
         //pero si tiene propiedad types
@@ -86,7 +90,7 @@ const Cards = (props) => {
           }
         }
       }
-
+      
       //si tiene propiedad type, debe actualizar el estado state => state.apiPoke
       //agregando la data, a state.apiPoke y actualizando el estado state => state.allPoke
     } catch (error) {
@@ -95,7 +99,7 @@ const Cards = (props) => {
     }
     //MODIFICAR ESTados globales
   }
-
+  
   const handleNextpage = () => {
     setnumeroPagina(numeroPagina + 1);
   };
@@ -106,31 +110,16 @@ const Cards = (props) => {
   async function handleAddPokemon() {
     try {
       if (buscarEnAllPoke(pokeName, allPokes)) {
-        window.alert("onSearch, !El pokemon ya se encuentra agregado¡");
+        window.alert("!El pokemon ya se encuentra agregado¡");
       } else {
         const { data } = await axios(
           `http://localhost:3001/api/pokemons/?name=${pokeName}`
-        );
-        if (data.hasOwnProperty("type")) {
-          // Actualizar el estado state.apiPoke agregando la data
-          //probar si es necesario qye sea async
-          const paLaApi = async () => {
-            await dispatch(agregarApi(data));
-            await dispatch(allPoke());
-          };
-          paLaApi();
-        } //pero si tiene propiedad types
-        else if (data[0].hasOwnProperty("types")) {
-          window.alert(
-            "handleAddPokemon, data[0].hasOwnProperty(types)'El pokemon ya se encuentra agregado."
           );
-
-          //navegar al detail del pokemon
-          //si no se encuentra en el estado BDD, lo agrega a BDD
-          window.alert(
-            "handleAddPokemon 'El pokemon ya se encuentra agregado."
-          );
-        }
+          if (data.hasOwnProperty("type")) {
+            // Actualizar el estado state.apiPoke agregando la data
+            paLaApi(data);
+            window.alert("El pokemon fue agregado")
+          }
       }
       setShowPopup(false);
     } catch (error) {
