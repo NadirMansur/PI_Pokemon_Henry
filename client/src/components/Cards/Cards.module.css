@@ -26,7 +26,11 @@
   gap: 50px;
   width: 80%;
   height: 600px; /* Altura máxima del contenedor */
-  overflow-y: scroll;
+  overflow-y:  scroll;
+  }
+
+div.cartas::-webkit-scrollbar {
+  display: none; /* Oculta la barra de desplazamiento en navegadores basados en WebKit */
 }
 
 .entrar {
