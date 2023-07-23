@@ -4,18 +4,23 @@ import SearchBar from "../../SearchBar/SearchBar";
 import React from "react";
 // Importar el componente Link desde la librería "react-router-dom"
 import { Link } from "react-router-dom";
- // Definir el componente Nav
+import style from "./Nav.module.css";
+// Definir el componente Nav
 const Nav = ({ onSearch }) => {
   return (
-    <div>
+    <div className={style.nav}>
       {/* Crear un enlace hacia la ruta "/form" */}
-      <Link to="/form">
-        <button>¡Crear Pokemon!</button>
-      </Link>
+      <div>
+        <Link to="/form">
+          <button className={style.createButton}>¡Crear Pokemon!</button>
+        </Link>
+      </div>
       {/* Renderizar el componente SearchBar y pasarle la función onSearch como prop */}
-      <SearchBar onSearch={onSearch} />
+      <div>
+        <SearchBar onSearch={onSearch} />
+      </div>
     </div>
   );
 };
- // Exportar el componente Nav como el valor por defecto
+// Exportar el componente Nav como el valor por defecto
 export default Nav;

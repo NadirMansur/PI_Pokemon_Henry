@@ -57,3 +57,34 @@ div.cartas::-webkit-scrollbar {
 .link {
   text-decoration: none;
 }
+
+.popup{
+  background-color: rgba(80, 79, 79, 0.402);
+  border-radius: 30px;
+  width: 500px;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+.popupButton{
+  border-radius: 30px;
+  background-color: #50925a91;
+  color: #fbff88e8;
+  border: 2px solid #fbff88e8;
+  transition-duration: 0.4s;
+  font-family: "Fuzzy Bubbles", cursive;
+  font-size: medium;
+  font-style: oblique;
+  font-weight: bold;
+}
+.popupButton:hover{
+  border: 2px solid #50925a91;
+  background-color: #fbff88e8;
+  color: #50925a91;
+}
+.popupButtons{
+  display: flex;
+  justify-content: space-evenly;
+}

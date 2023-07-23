@@ -18,82 +18,81 @@ import paginado from "../../modulos/paginado.js";
 
 const Cards = (props) => {
   const dispatch = useDispatch();
-//////////////////////////////////////////////////////////////////////////////////
-// Obtener los datos del estado utilizando el hook useSelector
-const allPokes = useSelector((state) => state.allPoke);
-const filtrados = useSelector((state) => state.filtro);
-const ultimoFiltro = useSelector((state) => state.ultimoFiltro);
-const filtroTipo = useSelector((state) => state.filtroTipo);
-//////////////////////////////////////////////////////////////////////////////////
- /////////////////////////////////////////////////////////////////////////
-// Declarar y establecer los estados iniciales
-const [numeroPagina, setnumeroPagina] = useState(1); // Estado para el número de página
-const [size, setsize] = useState(12); // Estado para el tamaño de página
-const [allPages, setallPages] = useState(paginado(filtrados, size)); // Estado para todas las páginas
-const [pokeName, setPokeName] = useState(""); // Estado para el nombre del Pokémon
-const [showPopup, setShowPopup] = useState(false); // Estado para mostrar o no el popup
-/////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////
+  // Obtener los datos del estado utilizando el hook useSelector
+  const allPokes = useSelector((state) => state.allPoke);
+  const filtrados = useSelector((state) => state.filtro);
+  const ultimoFiltro = useSelector((state) => state.ultimoFiltro);
+  const filtroTipo = useSelector((state) => state.filtroTipo);
+  //////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////
+  // Declarar y establecer los estados iniciales
+  const [numeroPagina, setnumeroPagina] = useState(1); // Estado para el número de página
+  const [size, setsize] = useState(12); // Estado para el tamaño de página
+  const [allPages, setallPages] = useState(paginado(filtrados, size)); // Estado para todas las páginas
+  const [pokeName, setPokeName] = useState(""); // Estado para el nombre del Pokémon
+  const [showPopup, setShowPopup] = useState(false); // Estado para mostrar o no el popup
+  /////////////////////////////////////////////////////////////////////////
 
+  //////////////////////////////// FUNCNIONES SECUNDARIAS ///////////////////////////////////////
+  const inicio = async () => {
+    // Cargar la base de datos
+    await dispatch(cargarBDD());
+    // Obtener todos los Pokémon
+    dispatch(allPoke());
+  };
+  // Actualizar el estado state.apiPoke agregando la data
+  const paLaApi = (data) => {
+    dispatch(agregarApi(data));
+    dispatch(allPoke());
+  };
+  const handleNextpage = () => {
+    setnumeroPagina(numeroPagina + 1);
+  };
+  const handleBackpage = () => {
+    setnumeroPagina(numeroPagina - 1);
+  };
+  const handleBuscarOtro = () => {
+    setShowPopup(false);
+  };
+  //////////////////////////////////////////////////////////////////////////////////////////////////
 
-//////////////////////////////// FUNCNIONES SECUNDARIAS ///////////////////////////////////////
-const inicio = async () => {
-  // Cargar la base de datos
-  await dispatch(cargarBDD());
-  // Obtener todos los Pokémon
-  dispatch(allPoke());
-};
-// Actualizar el estado state.apiPoke agregando la data
-const paLaApi = (data) => {
-  dispatch(agregarApi(data));
-  dispatch(allPoke());
-};
-const handleNextpage = () => {
-  setnumeroPagina(numeroPagina + 1);
-};
-const handleBackpage = () => {
-  setnumeroPagina(numeroPagina - 1);
-};
-const handleBuscarOtro = () => {
-  setShowPopup(false);
-};
-//////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////// useEffects /////////////////////////////////////
+  // Ejecutar la función de inicio al cargar el componente
+  useEffect(() => {
+    inicio();
+  }, []);
+  // Actualizar las tarjetas filtradas cuando cambian los Pokémon
+  useEffect(() => {
+    dispatch(filterCards(ultimoFiltro));
+  }, [allPokes]);
+  // Actualizar las páginas cuando cambian las tarjetas filtradas
+  useEffect(() => {
+    setallPages(paginado(filtrados, size));
+  }, [filtrados]);
+  // Actualizar las páginas cuando cambia el filtro de tipo
+  useEffect(() => {
+    setallPages(paginado(filtroTipo, size));
+  }, [filtroTipo]);
+  //////////////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////// useEffects /////////////////////////////////////
-// Ejecutar la función de inicio al cargar el componente
-useEffect(() => {
-  inicio();
-}, []);
- // Actualizar las tarjetas filtradas cuando cambian los Pokémon
-useEffect(() => {
-  dispatch(filterCards(ultimoFiltro));
-}, [allPokes]);
- // Actualizar las páginas cuando cambian las tarjetas filtradas
-useEffect(() => {
-  setallPages(paginado(filtrados, size));
-}, [filtrados]);
-// Actualizar las páginas cuando cambia el filtro de tipo
-useEffect(() => {
-  setallPages(paginado(filtroTipo, size));
-}, [filtroTipo]);
-//////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////FUNCIONES PRINCIPALES ///////////////////////////////////////////
-async function onSearch(name) {
-  try {
-    ////////////si es true, ya esta en el paginado /////////////
-    if (buscarEnAllPoke(name, allPokes)) {
-      window.alert("onSearch, !El pokemon ya se encuentra agregado¡");
+  ///////////////////////////////////////////FUNCIONES PRINCIPALES ///////////////////////////////////////////
+  async function onSearch(name) {
+    try {
+      ////////////si es true, ya esta en el paginado /////////////
+      if (buscarEnAllPoke(name, allPokes)) {
+        window.alert("onSearch, !El pokemon ya se encuentra agregado¡");
       } else {
         const { data } = await axios(
           `http://localhost:3001/api/pokemons/?name=${name}`
-          );
-          if (data.hasOwnProperty("type")) {
-            if (data.name !== name) {
-              setPokeName(data.name);
-              setShowPopup(true);
-            } else {
+        );
+        if (data.hasOwnProperty("type")) {
+          if (data.name !== name) {
+            setPokeName(data.name);
+            setShowPopup(true);
+          } else {
             paLaApi(data);
-            window.alert("El pokemon fue agregado")
+            window.alert("El pokemon fue agregado");
           }
         }
         //pero si tiene propiedad types
@@ -117,12 +116,12 @@ async function onSearch(name) {
       } else {
         const { data } = await axios(
           `http://localhost:3001/api/pokemons/?name=${pokeName}`
-          );
-          if (data.hasOwnProperty("type")) {
-            // Actualizar el estado state.apiPoke agregando la data
-            paLaApi(data);
-            window.alert("El pokemon fue agregado")
-          }
+        );
+        if (data.hasOwnProperty("type")) {
+          // Actualizar el estado state.apiPoke agregando la data
+          paLaApi(data);
+          window.alert("El pokemon fue agregado");
+        }
       }
       setShowPopup(false);
     } catch (error) {
@@ -144,22 +143,28 @@ async function onSearch(name) {
         />
 
         {showPopup && (
-          <div className="popup">
-            <h2>¿Quisiste decir {pokeName}?</h2>
-            <button
-              onClick={() => {
-                handleAddPokemon();
-              }}
-            >
-              Sí, agregar
-            </button>
-            <button
-              onClick={() => {
-                handleBuscarOtro();
-              }}
-            >
-              Buscar otro Pokémon
-            </button>
+          <div className={style.popup}>
+            <div>
+              <h2>¿Quisiste decir {pokeName}?</h2>
+            </div>
+            <div className={style.popupButtons}>
+              <button
+                className={style.popupButton}
+                onClick={() => {
+                  handleAddPokemon();
+                }}
+              >
+                Sí, agregar
+              </button>
+              <button
+                className={style.popupButton}
+                onClick={() => {
+                  handleBuscarOtro();
+                }}
+              >
+                Buscar otro Pokémon
+              </button>
+            </div>
           </div>
         )}
 

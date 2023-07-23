@@ -7,7 +7,7 @@ import { useState } from "react";
   };
   return (
     <div className={style.search}>
-      <input
+      <input className= {style.inputSearch}
         type="search"
         placeholder="Busqueda"
         onChange={handleChange} // Llama a la función handleChange cuando se cambia el valor del input
