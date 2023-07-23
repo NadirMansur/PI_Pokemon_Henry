@@ -34,13 +34,31 @@ const [pokeName, setPokeName] = useState(""); // Estado para el nombre del Poké
 const [showPopup, setShowPopup] = useState(false); // Estado para mostrar o no el popup
 /////////////////////////////////////////////////////////////////////////
 
+
+//////////////////////////////// FUNCNIONES SECUNDARIAS ///////////////////////////////////////
 const inicio = async () => {
   // Cargar la base de datos
   await dispatch(cargarBDD());
   // Obtener todos los Pokémon
   dispatch(allPoke());
 };
-//////////////////////////////////////////////////////////////////////////////////
+// Actualizar el estado state.apiPoke agregando la data
+const paLaApi = (data) => {
+  dispatch(agregarApi(data));
+  dispatch(allPoke());
+};
+const handleNextpage = () => {
+  setnumeroPagina(numeroPagina + 1);
+};
+const handleBackpage = () => {
+  setnumeroPagina(numeroPagina - 1);
+};
+const handleBuscarOtro = () => {
+  setShowPopup(false);
+};
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////// useEffects /////////////////////////////////////
 // Ejecutar la función de inicio al cargar el componente
 useEffect(() => {
   inicio();
@@ -53,17 +71,13 @@ useEffect(() => {
 useEffect(() => {
   setallPages(paginado(filtrados, size));
 }, [filtrados]);
-////////////// LA IDEA ES QUE AL HACER EL PAGINADO SOBRE OTRO FILTRO MÁS ESPECÍFICO
 // Actualizar las páginas cuando cambia el filtro de tipo
 useEffect(() => {
   setallPages(paginado(filtroTipo, size));
 }, [filtroTipo]);
 //////////////////////////////////////////////////////////////////////////////////
-// Actualizar el estado state.apiPoke agregando la data
-const paLaApi = (data) => {
-  dispatch(agregarApi(data));
-  dispatch(allPoke());
-};
+
+///////////////////////////////////////////FUNCIONES PRINCIPALES ///////////////////////////////////////////
 async function onSearch(name) {
   try {
     ////////////si es true, ya esta en el paginado /////////////
@@ -90,23 +104,12 @@ async function onSearch(name) {
           }
         }
       }
-      
-      //si tiene propiedad type, debe actualizar el estado state => state.apiPoke
-      //agregando la data, a state.apiPoke y actualizando el estado state => state.allPoke
     } catch (error) {
       console.log(error.message);
       window.alert(error.message);
     }
     //MODIFICAR ESTados globales
   }
-  
-  const handleNextpage = () => {
-    setnumeroPagina(numeroPagina + 1);
-  };
-  const handleBackpage = () => {
-    setnumeroPagina(numeroPagina - 1);
-  };
-
   async function handleAddPokemon() {
     try {
       if (buscarEnAllPoke(pokeName, allPokes)) {
@@ -128,9 +131,6 @@ async function onSearch(name) {
     }
   }
 
-  const handleBuscarOtro = () => {
-    setShowPopup(false);
-  };
   ///////////////////////////////////////////////////////////////////////////////////
   return (
     <div className={style.background}>
@@ -205,7 +205,6 @@ async function onSearch(name) {
           </button>
         </div>
       </div>
-      {/*<button onClick={borrarEstado}>BORRAR ESTADO</button>*/}
     </div>
   );
 };
